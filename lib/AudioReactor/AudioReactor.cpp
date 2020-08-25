@@ -62,24 +62,18 @@ void AudioReactor::tick() {
 }
 
 void AudioReactor::getMaxSound(int i) {
-    if (m_RunningAverages[i] > m_MaxSounds[i])
-	{
+    if (m_RunningAverages[i] > m_MaxSounds[i]) {
 		m_MaxSounds[i] = m_RunningAverages[i];
 		m_RecalCounters[i] = 0;
-	}
-	else
-	{
+	} else {
 		m_MaxSounds[i] -= (m_MaxSounds[i] - m_RunningAverages[i]) / HOMING_FACTOR;
-		if (m_MaxSounds[i] < MAX_OUT)
-		{
+		if (m_MaxSounds[i] < MAX_OUT) {
 			m_MaxSounds[i] = MAX_OUT;
 		}
 	}
-	if (m_RunningAverages[i] < 5)
-	{
+	if (m_RunningAverages[i] < 5) {
 		m_RecalCounters[i] += 1;
-		if (m_RecalCounters[i] > RECAL_TIME)
-		{
+		if (m_RecalCounters[i] > RECAL_TIME) {
 			m_MaxSounds[i] = MAX_OUT;
 			m_RecalCounters[i] = 0;
 		}
