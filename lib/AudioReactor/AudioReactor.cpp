@@ -33,8 +33,8 @@ void AudioReactor::start() {
     }
 }
 
-long AudioReactor::clamp(int value, int max, int min) {
-    return constrain(map(value, min, max, 0, MAX_OUT), 0, MAX_OUT);
+long AudioReactor::clamp(int value, int mmax, int mmin) {
+    return constrain(map(value, mmin, mmax, 0, MAX_OUT), 0, MAX_OUT);
 }
 
 void AudioReactor::tick() {
@@ -67,14 +67,14 @@ void AudioReactor::getMaxSound(int i) {
 		m_RecalCounters[i] = 0;
 	} else {
 		m_MaxSounds[i] -= (m_MaxSounds[i] - m_RunningAverages[i]) / HOMING_FACTOR;
-		if (m_MaxSounds[i] < MAX_OUT) {
-			m_MaxSounds[i] = MAX_OUT;
+		if (m_MaxSounds[i] < BASELINE) {
+			m_MaxSounds[i] = BASELINE;
 		}
 	}
 	if (m_RunningAverages[i] < 5) {
 		m_RecalCounters[i] += 1;
 		if (m_RecalCounters[i] > RECAL_TIME) {
-			m_MaxSounds[i] = MAX_OUT;
+			m_MaxSounds[i] = BASELINE;
 			m_RecalCounters[i] = 0;
 		}
 	}
