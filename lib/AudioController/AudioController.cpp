@@ -17,7 +17,7 @@ Status AudioController::init() {
     }
 
     m_AudioPlayer.stop();
-    m_AudioPlayer.volume(25); // This will have to be experimentally derived below clipping level
+    m_AudioPlayer.volume(30); // This will have to be experimentally derived below clipping level
     m_AudioPlayer.outputDevice(DFPLAYER_DEVICE_AUX);
     
     if (!m_SerialPort.stopListening()) {
