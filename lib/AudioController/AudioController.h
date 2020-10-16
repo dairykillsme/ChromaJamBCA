@@ -21,4 +21,5 @@ public:
     ~AudioController();
     Status init();
     Status playFirst();
+    Status startLoop();
 };

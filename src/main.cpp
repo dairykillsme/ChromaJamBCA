@@ -13,12 +13,14 @@ AudioReactor reactor = AudioReactor(audioInputPorts, audioOutputPorts, 3);
 
 void initAudioControllers();
 void playAudioControllers();
+void loopAudioControllers();
 
 void setup()
 {
     Serial.begin(115200);
     initAudioControllers();
     playAudioControllers();
+    loopAudioControllers();
     reactor.start();
 }
 
@@ -77,6 +79,33 @@ void playAudioControllers() {
         Serial.println("Channel 3 Playing");
     } else {
         Serial.print("Channel 3 failed to play song with error code " + err);
+        Serial.println(err);
+    }
+}
+
+void loopAudioControllers() {
+    //Channel 1
+    auto err = audioControllerCh1.startLoop();
+    if (!err) {
+        Serial.println("Channel 1 Looping");
+    } else {
+        Serial.print("Channel 1 failed to loop song with error code " + err);
+        Serial.println(err);
+    }
+    //Channel 2
+    err = audioControllerCh2.startLoop();
+    if (!err) {
+        Serial.println("Channel 2 Looping");
+    } else {
+        Serial.print("Channel 2 failed to loop song with error code " + err);
+        Serial.println(err);
+    }
+    //Channel 3
+    err = audioControllerCh3.startLoop();
+    if (!err) {
+        Serial.println("Channel 3 Looping");
+    } else {
+        Serial.print("Channel 3 failed to loop song with error code " + err);
         Serial.println(err);
     }
 }
