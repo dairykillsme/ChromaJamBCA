@@ -48,17 +48,17 @@ void AudioReactor::tick() {
         float averageReading = m_SumsOfSquares[i] / NUMBER_SAMPLES;
         if (i == 2)
         {
-            Serial.print(averageReading);
+            //Serial.print(averageReading);
         }
         
         m_RunningAverages[i] = (((AVERAGED_OVER - 1) * m_RunningAverages[i]) + averageReading) / AVERAGED_OVER; // Calculate Running Averages
         getMaxSound(i);
         analogWrite(m_OutPorts[i], getReaction(i));
     }
-    Serial.print(" ");
-    Serial.print(m_RunningAverages[2]);
-    Serial.print(" ");
-    Serial.println(m_MaxSounds[2]);
+    //Serial.print(" ");
+    //Serial.print(m_RunningAverages[2]);
+    //Serial.print(" ");
+    //Serial.println(m_MaxSounds[2]);
 }
 
 void AudioReactor::getMaxSound(int i) {

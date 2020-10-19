@@ -3,6 +3,10 @@
 #include <RadiantMobo.h>
 #include <AudioReactor.h>
 
+#define AUDIO_LENGTH_MS 480000
+
+unsigned long lastPlayedAt;
+
 AudioController audioControllerCh1(CH1_RX_PIN, CH1_TX_PIN),
                 audioControllerCh2(CH2_RX_PIN, CH2_TX_PIN),
                 audioControllerCh3(CH3_RX_PIN, CH3_TX_PIN);
@@ -14,18 +18,20 @@ AudioReactor reactor = AudioReactor(audioInputPorts, audioOutputPorts, 3);
 void initAudioControllers();
 void playAudioControllers();
 void loopAudioControllers();
+void syncAudioControllers();
 
 void setup()
 {
     Serial.begin(115200);
     initAudioControllers();
     playAudioControllers();
-    loopAudioControllers();
+    lastPlayedAt = millis(); // Save time of audio start
     reactor.start();
 }
 
 void loop()
 {
+    syncAudioControllers();
     reactor.tick();
 }
 
@@ -107,5 +113,15 @@ void loopAudioControllers() {
     } else {
         Serial.print("Channel 3 failed to loop song with error code " + err);
         Serial.println(err);
+    }
+}
+
+/**
+ * @brief If audio files should have finished playing, make sure they sync up for next loop
+ */
+void syncAudioControllers() {
+    if ((millis() - lastPlayedAt) > AUDIO_LENGTH_MS) {
+        playAudioControllers();
+        lastPlayedAt = millis();
     }
 }
